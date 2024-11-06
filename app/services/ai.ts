@@ -3,13 +3,8 @@ interface AIConfig {
   baseUrl: string;
 }
 
-let aiConfig: AIConfig = {
-  apiKey: process.env.NEXT_PUBLIC_AI_API_KEY || '',
-  baseUrl: process.env.NEXT_PUBLIC_AI_BASE_URL || '',
-};
-
 export const setAIConfig = (config: AIConfig) => {
-  aiConfig = config;
+  // Implementation not needed for the current setup
 };
 
 export const rewriteText = async (text: string): Promise<string> => {
@@ -20,7 +15,6 @@ export const rewriteText = async (text: string): Promise<string> => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'rewrite',
         payload: { text },
       }),
     });

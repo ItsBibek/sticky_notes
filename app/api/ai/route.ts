@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import OpenAI from 'openai'
+import { ChatCompletionMessageParam } from 'openai/resources/chat/completions'
 
 const openai = new OpenAI({
   apiKey: process.env.NEXT_PUBLIC_AI_API_KEY,
@@ -8,9 +9,9 @@ const openai = new OpenAI({
 
 export async function POST(request: Request) {
   try {
-    const { endpoint, payload } = await request.json()
+    const { payload } = await request.json()
     
-    const messages = [
+    const messages: ChatCompletionMessageParam[] = [
       {
         role: "system",
         content: "Rewrite the user's text more clearly and concisely. Respond only with the rewritten text, without any additional commentary or formatting."
@@ -19,11 +20,11 @@ export async function POST(request: Request) {
         role: "user",
         content: payload.text
       }
-    ] as const;
+    ];
 
     const completion = await openai.chat.completions.create({
       model: "grok-beta",
-      messages: messages,
+      messages,
       temperature: 0.7,
     });
 
